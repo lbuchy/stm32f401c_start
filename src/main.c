@@ -1,10 +1,5 @@
 #include <main.h>
 
-void SysTick_Handler(void)
-{
-    HAL_IncTick();
-}
-
 int main(void)
 {
     HAL_Init();
@@ -18,10 +13,11 @@ int main(void)
     gpio.Speed = GPIO_SPEED_HIGH;
     HAL_GPIO_Init(GPIOD, &gpio);
 
+
     while (1)
     {
         HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-        HAL_Delay(++i % 100);
+        HAL_Delay(100);
     }
     return 0;
 }
