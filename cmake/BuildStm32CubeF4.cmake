@@ -7,17 +7,21 @@ set( PKG_EXTRACT_PREFIX "/STM32Cube" )
 
 set( PKG_CMAKELISTS "" )
 
-set( STM32CUBE_ROOT ${CMAKE_BINARY_DIR}${PKG_ARCHIVE_PREFIX}${PKG_EXTRACT_PREFIX} )
+set( STM32CUBE_ROOT ${CMAKE_BINARY_DIR}${PKG_EXTRACT_PREFIX}${PKG_ARCHIVE_PREFIX} )
 
 aux_source_directory(
-        "${STM32CUBE_ROOT}/STM32F4xx_HAL_Driver/Src"
+        "${STM32CUBE_ROOT}/Drivers/STM32F4xx_HAL_Driver/Src"
 	STM32CUBE_HAL_SRC)
+file(GLOB
+	STM32CUBE_HAL_INC_FILES
+	"${STM32CUBE_ROOT}/Drivers/STM32F4xx_HAL_Driver/Inc/*.h")
 
 set( STM32CUBE_SRC ${STM32CUBE_SRC} 
 	"${STM32CUBE_ROOT}/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c"
 	"${STM32CUBE_ROOT}/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc/startup_stm32f401xc.s"
-	${STM32CUBE_HAL_SRC} )
+	${STM32CUBE_HAL_SRC} 
+	${STM32CUBE_HAL_INC_FILES} )
 
 include_directories( "${STM32CUBE_ROOT}/Drivers/CMSIS/Device/ST/STM32F4xx/Include" )
 include_directories( "${STM32CUBE_ROOT}/Drivers/CMSIS/Include" )
-include_directories( "${STM32CUBE_ROOT}/STM32F4xx_HAL_Driver/Inc" )
+include_directories( "${STM32CUBE_ROOT}/Drivers/STM32F4xx_HAL_Driver/Inc" )
