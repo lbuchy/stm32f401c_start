@@ -42,6 +42,7 @@ static void SystemClock_Config(void)
   HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2);
 }
 
+#if 0
 void HAL_SYSTICK_Callback(void)
 {
     // Create a buffer for the USBD_HID device
@@ -54,13 +55,24 @@ void HAL_SYSTICK_Callback(void)
 
     USBD_HID_SendReport (&hUSBDDevice, buf, 4);
 }
-
+#endif
 void BlinkTask(void* pParams)
 {
     while (1)
     {
         HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-        vTaskDelay(1000 /*ticks*/);
+
+        // Create a buffer for the USBD_HID device
+        // We are going to simulate a mouse
+        static uint8_t buf[4] = {0};
+
+        // Make the mouse... SHAKE WILDLY!
+        buf[1] = rand() % 30 - 15;
+        buf[2] = rand() % 30 - 15;
+
+        USBD_HID_SendReport (&hUSBDDevice, buf, 4);
+
+        vTaskDelay(100 /*ticks*/);
     }
 }
 
@@ -88,17 +100,15 @@ int main(void)
         NULL /* pParam */,
         tskIDLE_PRIORITY,
         &taskHandle);
-
+#if 1
     USBD_Init(&hUSBDDevice, &HID_Desc, 0);
     USBD_RegisterClass(&hUSBDDevice, USBD_HID_CLASS);
     USBD_Start(&hUSBDDevice);
-
+#endif
     vTaskStartScheduler();
 
     while (1)
     {
-
-        HAL_Delay(1000);
     }
     return 0;
 }

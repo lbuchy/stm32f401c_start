@@ -154,14 +154,17 @@ void DebugMon_Handler(void)
   * @param  None
   * @retval None
   */
+extern void xPortSysTickHandler( void );
 void SysTick_Handler(void)
 {
   HAL_IncTick();
+  xPortSysTickHandler();
+}
 
   /* Call user callback */
-  HAL_SYSTICK_IRQHandler();
+//  HAL_SYSTICK_IRQHandler();
 
-}
+//}
 
 /******************************************************************************/
 /*                 STM32F4xx Peripherals Interrupt Handlers                   */
@@ -188,13 +191,6 @@ void EXTI0_IRQHandler(void)
   */
 void OTG_FS_IRQHandler(void)
 {
-   static uint16_t pin = 12;
-   uint16_t maxpin = 15;
-   HAL_GPIO_TogglePin(GPIOD, (0x1 << ++pin));
-
-   if (pin > maxpin)
-       pin = 12;
-
    HAL_PCD_IRQHandler(&hpcd);
 }
 

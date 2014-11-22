@@ -87,7 +87,7 @@
 
 #define configUSE_PREEMPTION              1
 #define configUSE_IDLE_HOOK               0
-#define configUSE_TICK_HOOK               0
+#define configUSE_TICK_HOOK               1
 #define configCPU_CLOCK_HZ                (SystemCoreClock)
 #define configTICK_RATE_HZ                ((portTickType)1000)
 #define configMAX_PRIORITIES              ((unsigned portBASE_TYPE)7)
@@ -163,7 +163,7 @@ header file. */
 
 /* IMPORTANT: This define MUST be commented when used with STM32Cube firmware, 
               to prevent overwriting SysTick_Handler defined within STM32Cube HAL */
-/* #define xPortSysTickHandler SysTick_Handler */
+//#define xPortSysTickHandler SysTick_Handler
 
 #endif /* FREERTOS_CONFIG_H */
 
