@@ -127,9 +127,9 @@ void UsageFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
-{
-}
+//void SVC_Handler(void)
+//{
+//}
 
 /**
   * @brief  This function handles Debug Monitor exception.
@@ -145,9 +145,9 @@ void DebugMon_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
-{
-}
+//void PendSV_Handler(void)
+//{
+//}
 
 /**
   * @brief  This function handles SysTick Handler.
@@ -157,10 +157,10 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   HAL_IncTick();
-  
+
   /* Call user callback */
   HAL_SYSTICK_IRQHandler();
-  
+
 }
 
 /******************************************************************************/
@@ -188,7 +188,14 @@ void EXTI0_IRQHandler(void)
   */
 void OTG_FS_IRQHandler(void)
 {
-//   HAL_PCD_IRQHandler(&hpcd);
+   static uint16_t pin = 12;
+   uint16_t maxpin = 15;
+   HAL_GPIO_TogglePin(GPIOD, (0x1 << ++pin));
+
+   if (pin > maxpin)
+       pin = 12;
+
+   HAL_PCD_IRQHandler(&hpcd);
 }
 
 /**
